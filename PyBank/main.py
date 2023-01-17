@@ -25,11 +25,12 @@ import csv
 import statistics
 
 # Open Resources folder and then in that folder open the budget_data file and name it budget_data_csv.
-budget_data_csv = os.path.join("python-challenge", "PyBank", "budget_data.csv")
+budget_data_csv = os.path.join("C:\Users\aoyedira\Starter_Code\Instructions\PyBank\Resources\budget_data.csv")
 
 # Open the file
 with open (budget_data_csv, newline=" ") as csvfile:
     csvreader = csv.reader(csvfile, delimiter=",")
+
 
 
 
