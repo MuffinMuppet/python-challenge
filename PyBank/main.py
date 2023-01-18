@@ -23,35 +23,39 @@ import csv
 
 # You can also do import statistics to avoid doing all the statistical calsulations. Sweet stuff.
 import statistics
-
+#print(os.getcwd())
+#print(__file__)
+os.chdir(os.path.dirname(os.path.realpath(__file__)))
+#print(os.getcwd())
 # Open Resources folder and then in that folder open the budget_data file and name it budget_data_csv.
-budget_data_csv = os.path.join("C:\Users\aoyedira\Starter_Code\Instructions\PyBank\Resources\budget_data.csv")
-
-# Open the file
-with open (budget_data_csv, newline=" ") as csvfile:
-    csvreader = csv.reader(csvfile, delimiter=",")
-    # Header Row
-    csvheader = next(csvreader)
-    print(f'Header:{csvheader}')
+budget_data_csv = os.path.join( "Resources", "budget_data.csv")
+output_path = os.path.join("analysis", "file.txt")
 
 # Give variable names and values first
 totalmonth = 0
-totalnetrevenue = 0
+totalnetprofits= 0
 averagechange = 0
-date = []
+date_change = []
 profits = []
 past_profits = 0
 diff_monthly = []
 total_diff = 0
 profit_increase = {"month": "", "profit": 0}
-profit_decrease = {"month": "", "losses": 0}
+profit_decrease = {"month": "", "loss": 99999999}
 
-# For loops for mathematics and stuff.
-  for row in csvreader:
+# Open the file
+with open(budget_data_csv) as csvfile:
+    csvreader = csv.reader(csvfile)
+    # Header Row
+    csvheader = next(csvreader)
+    print(f'Header:{csvheader}')
+
+    # For loops for mathematics and stuff.
+    for row in csvreader:
         totalmonth +=1
-        totalnetrevenue += int(row[1])
+        totalnetprofits += int(row[1])
         # To keep track of net total in date and revenue or profit and losses over time.
-        date.append(row[0])
+        date_change.append(row[0])
         profit = int(row[1])
         profits.append(profit)
 
@@ -65,8 +69,8 @@ profit_decrease = {"month": "", "losses": 0}
             # Calculating the profit increase and decrease over the time period.
             if ozzychanges > profit_increase['profits']:
                 profit_increase['profits'] = ozzychanges
-                 profit_increase['month'] = row[0]
-            if ozzychanges < profit_decrease['losses']:
+                profit_increase['month'] = row[0]
+            if ozzychanges < profit_decrease['loss']:
                 profit_decrease['losses'] = ozzychanges
                 profit_decrease['month'] = row[0]
 
@@ -77,21 +81,22 @@ profit_decrease = {"month": "", "losses": 0}
 print(f"Financial Analysis")
 print(f"----------------------------")
 print(f"Total Months: {totalmonth}")
-print(f"Total: ${totalnetrevenue}")
+print(f"Total: ${totalnetprofits}")
 print(f"Average Change: ${averagechange:.2f}")
-print(f"Greatest Increase in Profits: {profit_increase['month']} ${profit_increase['profits']}")
-print(f"Greatest Decrease in Profits: {profit_decrease['month']} ${profit_decrease['losses']}")
+print(f"Greatest Increase in Profits: {profit_increase['month']} ${profit_increase['profit']}")
+print(f"Greatest Decrease in Profits: {profit_decrease['month']} ${profit_decrease['loss']}")
 
 # Output instructions: Output as txt file into analysis folder use"w" function to write to folder
 # \n is to indicate that the output is to be in a new line.
-output = open("PyBank/Analysis/file.txt","w")
+
+output = open(output_path, "w")
 output.write(f"Financial Analysis\n")
 output.write(f"----------------------------\n")
 output.write(f"Total Months: {totalmonth}\n")
-output.write(f"Total: ${totalnetrevenue}\n")
+output.write(f"Total: ${totalnetprofits}\n")
 output.write(f"Average Change: ${averagechange:.2f}\n")
-output.write(f"Greatest Increase in Profits: {profit_increase['month']} ${profit_increase['profits']}\n")
-output.write(f"Greatest Decrease in Profits: {profit_decrease['month']} ${profit_decrease['losses']}\n")
+output.write(f"Greatest Increase in Profits: {profit_increase['month']} ${profit_increase['profit']}\n")
+output.write(f"Greatest Decrease in Profits: {profit_decrease['month']} ${profit_decrease['loss']}\n")
 
 
             
