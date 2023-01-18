@@ -30,6 +30,76 @@ budget_data_csv = os.path.join("C:\Users\aoyedira\Starter_Code\Instructions\PyBa
 # Open the file
 with open (budget_data_csv, newline=" ") as csvfile:
     csvreader = csv.reader(csvfile, delimiter=",")
+    # Header Row
+    csvheader = next(csvreader)
+    print(f'Header:{csvheader}')
+
+# Give variable names and values first
+totalmonth = 0
+totalnetrevenue = 0
+averagechange = 0
+date = []
+profits = []
+past_profits = 0
+diff_monthly = []
+total_diff = 0
+profit_increase = {"month": "", "profit": 0}
+profit_decrease = {"month": "", "losses": 0}
+
+# For loops for mathematics and stuff.
+  for row in csvreader:
+        totalmonth +=1
+        totalnetrevenue += int(row[1])
+        # To keep track of net total in date and revenue or profit and losses over time.
+        date.append(row[0])
+        profit = int(row[1])
+        profits.append(profit)
+
+        # Now this will calculate the changes in revenue over the time period.
+        ozzychanges = 0
+        if past_profits != 0:
+            ozzychanges = profits - past_profits
+            diff_monthly.append(ozzychanges)
+            past_profits = profit
+
+            # Calculating the profit increase and decrease over the time period.
+            if ozzychanges > profit_increase['profits']:
+                profit_increase['profits'] = ozzychanges
+                 profit_increase['month'] = row[0]
+            if ozzychanges < profit_decrease['losses']:
+                profit_decrease['losses'] = ozzychanges
+                profit_decrease['month'] = row[0]
+
+            # Now find the average.
+            averagechange = sum(diff_monthly)/len(diff_monthly)
+
+# Create Tempelate for the text file and results
+print(f"Financial Analysis")
+print(f"----------------------------")
+print(f"Total Months: {totalmonth}")
+print(f"Total: ${totalnetrevenue}")
+print(f"Average Change: ${averagechange:.2f}")
+print(f"Greatest Increase in Profits: {profit_increase['month']} ${profit_increase['profits']}")
+print(f"Greatest Decrease in Profits: {profit_decrease['month']} ${profit_decrease['losses']}")
+
+# Output instructions: Output as txt file into analysis folder use"w" function to write to folder
+# \n is to indicate that the output is to be in a new line.
+output = open("PyBank/Analysis/file.txt","w")
+output.write(f"Financial Analysis\n")
+output.write(f"----------------------------\n")
+output.write(f"Total Months: {totalmonth}\n")
+output.write(f"Total: ${totalnetrevenue}\n")
+output.write(f"Average Change: ${averagechange:.2f}\n")
+output.write(f"Greatest Increase in Profits: {profit_increase['month']} ${profit_increase['profits']}\n")
+output.write(f"Greatest Decrease in Profits: {profit_decrease['month']} ${profit_decrease['losses']}\n")
+
+
+            
+
+
+
+
+
 
 
 
