@@ -22,17 +22,17 @@ with open(election_data_csv) as csv_file:
 #variable names
     votecasted=0
     totalvotecasted=0
-    candidates=[]
+    politician=[]
     numbers_votes_won = {}
     percentage_won=0
     name_of_winner=""
-    votes_for_winner=0
+    votes_for_winner= 0
   
 #The total number of votes cast
     for row in csvreader:
         votecasted +=1
-        if row[2] not in candidates:
-            candidates.append(row[2])
+        if row[2] not in politician:
+            politician.append(row[2])
             numbers_votes_won[row[2]]=0
         numbers_votes_won[row[2]]+=1
         
@@ -49,19 +49,19 @@ output.write(f"--------------------\n")
 #The percentage of votes each candidate won
 for names in numbers_votes_won:
     votes = numbers_votes_won[names]
-    percentage = votes / votecasted
-    inhouse = percentage * 100
-    print(f"{names}: {inhouse:.3f}% ({votes})")
-    output.write(f"{names}: {inhouse:.3f}% ({votes})\n")
+    percentage = float(votes) / float(votecasted)*100
+    
+    print(f"{names}: {percentage:.2f}% ({votes})")
+    output.write(f"{names}: {percentage:.2f}% ({votes})\n")
 
 #The winner of the election based on popular vote.
-    if votes > votes_for_winner: 
+    if votes > percentage:
         winnervotes = votes
         winner = names
 #Print 
 print(f"-------------------------")
-print(f"Winner: {winner}")
+print(f"Winner: {names}")
 print(f"-------------------------")
 output.write(f"-------------------------\n")
-output.write(f"Winner: {winner}\n")
+output.write(f"Winner: {names}\n")
 output.write(f"-------------------------\n")
